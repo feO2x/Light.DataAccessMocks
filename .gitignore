@@ -4,3 +4,4 @@
 bin/
 obj/
 *.user
+Light.DataAccessMocks.Tests.Local.props

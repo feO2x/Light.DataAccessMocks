@@ -1,7 +1,9 @@
 <Project Sdk="Microsoft.NET.Sdk">
+    
+    <Import Project="Light.DataAccessMocks.Tests.Local.props" Condition="Exists('Light.DataAccessMocks.Tests.Local.props')" />
 
     <PropertyGroup>
-        <TargetFramework>net7.0</TargetFramework>
+        <TargetFramework Condition="'$(TargetFramework)' == '' AND '$(TargetFrameworks)' == ''">net7.0</TargetFramework>
         <Nullable>enable</Nullable>
         <IsPackable>false</IsPackable>
     </PropertyGroup>
