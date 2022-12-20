@@ -28,6 +28,8 @@ Light.DataAccessMocks 1.0.0
 --------------------------------
 
 - initial release 🥳🍻🎈
+- use the different session mocks in your unit tests to replace the real sessions accessing your database
+- use the AsyncFactoryMock&lt;T&gt; to track if sessions are created or not             
 - read all docs at https://github.com/feO2x/Light.DataAccessMocks
         </PackageReleaseNotes>
     </PropertyGroup>
