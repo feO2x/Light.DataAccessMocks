@@ -22,7 +22,7 @@ public static class BaseTransactionalSessionMockTests
     {
         var session = new TransactionalSession();
 
-        Action act = () =>
+        var act = () =>
         {
             for (var i = 0; i < 5; i++)
             {
@@ -145,7 +145,7 @@ public static class BaseTransactionalSessionMockTests
             for (var i = 0; i < 5; i++)
             {
                 var transaction = session.BeginTransaction();
-                transaction.CommitMaybeTooOften(i, indexOfInvalidTransaction, ref numberOfCommits);
+                transaction.CommitMayBeTooOften(i, indexOfInvalidTransaction, ref numberOfCommits);
                 transaction.Dispose();
             }
 
@@ -242,7 +242,7 @@ public static class BaseTransactionalSessionMockTests
             {
                 var transaction = session.BeginTransaction();
                 if (i < 4)
-                    transaction.CommitMaybeTooOften(i, indexOfInvalidTransaction, ref numberOfCommits);
+                    transaction.CommitMayBeTooOften(i, indexOfInvalidTransaction, ref numberOfCommits);
 
                 transaction.Dispose();
             }
@@ -460,7 +460,7 @@ public static class BaseTransactionalSessionMockTests
         }
     }
 
-    private static void CommitMaybeTooOften(this TransactionMock transaction,
+    private static void CommitMayBeTooOften(this TransactionMock transaction,
                                             int currentIndex,
                                             int indexOfInvalidTransaction,
                                             ref int numberOfCommits)
