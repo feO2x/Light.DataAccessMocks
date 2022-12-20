@@ -1,0 +1,1 @@
+dotnet pack Light.DataAccessMocks.csproj -c Release /p:SignAssembly=true /p:AssemblyOriginatorKeyFile=bin/Light.DataAccessMocks.snk /p:ContinuousIntegrationBuild=true
