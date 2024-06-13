@@ -1,0 +1,36 @@
+name: Release on NuGet
+
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+    inputs:
+      dotnetVersion:
+        description: "The version of .NET to use"
+        required: false
+        default: "8.0.x"
+
+jobs:
+  release-on-nuget:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: ${{ github.event.inputs.dotnetVersion }}
+    - name: Prepare SNK file
+      env:
+        LIGHT_DATAACCESSMOCKS_SNK: ${{ secrets.LIGHT_DATAACCESSMOCKS_SNK }}
+      run: |
+        echo $LIGHT_DATAACCESSMOCKS_SNK | base64 --decode > ./Code/Light.DataAccessMocks/Light.DataAccessMocks.snk
+    - name: Create NuGet packages
+      run: dotnet pack ./Code/Light.DataAccessMocks/Light.DataAccessMocks.csproj -c Release /p:SignAssembly=true /p:AssemblyOriginatorKeyFile=Light.DataAccessMocks.snk /p:ContinuousIntegrationBuild=true
+    - name: Delete SNK file
+      run: rm ./Code/Light.DataAccessMocks/Light.DataAccessMocks.snk
+    - name: Push NuGet packages
+      env:
+        NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
+      run: dotnet nuget push ./Code/Light.DataAccessMocks/bin/Release/Light.DataAccessMocks.*.nupkg --source https://api.nuget.org/v3/index.json --api-key ${{ secrets.NUGET_API_KEY }}
