@@ -1,11 +1,11 @@
 # Light.DataAccessMocks
 
-Provides mocks for the data access abstractions of [Light.SharedCore](https://github.com/feO2x/Light.SharedCore) that you can use in your unit tests.
+This library provides mocks for the data access abstractions of [Light.SharedCore](https://github.com/feO2x/Light.SharedCore) that you can use in your unit tests.
 
 ![Light Logo](light-logo.png)
 
 [![License](https://img.shields.io/badge/License-MIT-green.svg?style=for-the-badge)](https://github.com/feO2x/Light.DataAccessMocks/blob/main/LICENSE)
-[![NuGet](https://img.shields.io/badge/NuGet-1.0.0-blue.svg?style=for-the-badge)](https://www.nuget.org/packages/Light.DataAccessMocks/)
+[![NuGet](https://img.shields.io/badge/NuGet-2.0.0-blue.svg?style=for-the-badge)](https://www.nuget.org/packages/Light.DataAccessMocks/)
 
 # How to install
 
@@ -13,7 +13,7 @@ Light.DataAccessMocks is compiled against [.NET Standard 2.0 and 2.1](https://do
 
 Light.DataAccessMocks is available as a [NuGet package](https://www.nuget.org/packages/Light.DataAccessMocks/) and can be installed via:
 
-- **Package Reference in csproj**: `<PackageReference Include="Light.DataAccessMocks" Version="1.0.0" />`
+- **Package Reference in csproj**: `<PackageReference Include="Light.DataAccessMocks" Version="2.0.0" />`
 - **dotnet CLI**: `dotnet add package Light.DataAccessMocks`
 - **Visual Studio Package Manager Console**: `Install-Package Light.DataAccessMocks`
 
@@ -210,72 +210,6 @@ public sealed class UpdateContactControllerTests
 In the above unit test, `UpdateContactSessionMock` derives from `AsyncSessionMock` which implements `IAsyncSession` and tracks calls to `SaveChangesAsync` and `DiposeAsync`. The methods `SaveChangesMustHaveBeenCalled` and `SaveChangesMustNotHaveBeenCalled` are used to ensure that `SaveChangesAsync` is properly called by the `UpdateContactController`.
 
 By the way, you can throw an arbitrary exception during `SaveChanges` by setting the  `ExceptionOnSaveChanges` property.
-
-## Tracking session creation
-
-In the previous examples, you've already seen the use of `AsyncFactoryMock<T>`. This class implements `IAsyncFactory<T>` which allows you to create a session instance and initialize a connection to the target system asynchronously.
-
-If we reuse the example from the previous section, we might write the following test code for DTO validation:
-
-```csharp
-public sealed class UpdateContactControllerTests
-{
-    public UpdateContactControllerTests()
-    {
-        Session = new UpdateContactSessionMock();
-        SessionFactory = new AsyncFactoryMock<IUpdateContactSession>(Session);
-        Controller = new UpdateContactController(SessionFactory, new UpdateContactDtoValidator());
-    }
-
-    private UpdateContactSessionMock Session { get; }
-    private AsyncFactoryMock<IUpdateContactSession> SessionFactory { get; }
-    private UpdateContactController Controller { get; }
-
-    [Fact]
-    public async Task InvalidDto()
-    {
-        var invalidDto = new UpdateContactDto(45, ""); // Name is empty
-
-        var result = await Controller.UpdateContact(invalidDto);
-
-        SessionFactory.CreateMustNotHaveBeenCalled(); // Use this call to ensure that the session was never opened
-        Assert.IsType<BadRequestObjectResult>(result.Result);
-    }
-
-    [Fact]
-    public async Task UpdateContactWhenIdIsValid()
-    {
-        var contact = new Contact { Id = 1, Name = "John Doe" };
-        Session.Contact = contact
-        var dto = new UpdateContactDto(1, "Jane Doe");
-
-        var result = await Controller.UpdateContact(dto);
-
-        SessionFactory.CreateMustHaveBeenCalled(); // Use this call to ensure that the session was opened exactly once
-        Assert.Equal("Jane Doe", contact.Name);
-        Assert.IsType<NoContentResult>(result.Result);
-        Assert.Same(contact, Session.CapturedContact);
-        Session.SaveChangesMustHaveBeenCalled()
-               .MustBeDisposed();
-    }
-
-    private sealed class UpdateContactSessionMock : AsyncSessionMock, IUpdateContactSession
-    {
-        public Contact? Contact { get; set; }
-        public Contact? CapturedContact { get; set; }
-
-        public Task<Contact?> GetContactAsync(int id) => Task.FromResult(Contact);
-
-        public Task UpdateContactAsync(Contact contact)
-        {
-            CapturedContact = contact;
-            return Task.CompletedTask;
-        }
-    }
-}
-```
-
-In the above unit tests, the `AsyncFactoryMock<IUpdateContactSession>` is injected into the controller to track calls to `CreateAsync`. When this method is called, the session is returned by the factory mock. You can use the `CreateMustNotHaveBeenCalled` method to ensure that the session was never opened, or the `CreateMustHaveBeenCalled` method to ensure that the session was opened exactly once.
 
 ## Mocking transactional sessions
 
