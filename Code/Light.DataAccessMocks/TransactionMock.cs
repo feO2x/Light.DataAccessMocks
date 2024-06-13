@@ -1,4 +1,4 @@
-﻿using Light.SharedCore.DataAccessAbstractions;
+﻿using Light.SharedCore.DatabaseAccessAbstractions;
 
 namespace Light.DataAccessMocks;
 
@@ -27,7 +27,12 @@ public sealed class TransactionMock : DisposableMock<TransactionMock>, ITransact
     public TransactionMock MustBeCommitted()
     {
         if (CommitCallCount != 1)
-            throw new TestException($"Commit must have been called exactly once, but it was called {CommitCallCount} times.");
+        {
+            throw new TestException(
+                $"Commit must have been called exactly once, but it was called {CommitCallCount} times."
+            );
+        }
+
         return this;
     }
 }

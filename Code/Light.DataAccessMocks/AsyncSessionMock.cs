@@ -1,6 +1,6 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
-using Light.SharedCore.DataAccessAbstractions;
+using Light.SharedCore.DatabaseAccessAbstractions;
 
 namespace Light.DataAccessMocks;
 

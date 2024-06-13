@@ -1,5 +1,5 @@
 ﻿using FluentAssertions;
-using Light.SharedCore.DataAccessAbstractions;
+using Light.SharedCore.DatabaseAccessAbstractions;
 using Xunit;
 
 namespace Light.DataAccessMocks.Tests;

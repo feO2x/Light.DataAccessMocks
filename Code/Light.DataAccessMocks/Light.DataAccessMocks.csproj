@@ -8,7 +8,7 @@
         <Version>1.0.0</Version>
         <Description>Provides mock implementations of the data access abstractions of Light.SharedCore.</Description>
         <PackageTags>unit;automated;testing;data-access;mocks</PackageTags>
-        <LangVersion>11.0</LangVersion>
+        <LangVersion>12.0</LangVersion>
         <Nullable>enable</Nullable>
         <IsPackable>true</IsPackable>
         <PackageIcon>light-logo.png</PackageIcon>
@@ -35,9 +35,9 @@ Light.DataAccessMocks 1.0.0
     </PropertyGroup>
     
     <ItemGroup>
-        <PackageReference Include="Light.SharedCore" Version="1.0.0" />
+        <PackageReference Include="Light.SharedCore" Version="2.0.0" />
         <PackageReference Include="Humanizer.Core" Version="2.14.1" />
-        <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" PrivateAssets="All" />
+        <PackageReference Include="Microsoft.SourceLink.GitHub" Version="8.0.0" PrivateAssets="All" />
     </ItemGroup>
     
     <ItemGroup>
