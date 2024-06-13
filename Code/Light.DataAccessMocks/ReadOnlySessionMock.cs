@@ -10,7 +10,7 @@ namespace Light.DataAccessMocks;
 /// It is used as the return type of the fluent API.
 /// </typeparam>
 public abstract class ReadOnlySessionMock<T> : DisposableMock<T>
-    where T : ReadOnlySessionMock<T> { }
+    where T : ReadOnlySessionMock<T>;
 
 /// <summary>
 /// Represents a base class for mocks that implement <see cref="IDisposable" />.

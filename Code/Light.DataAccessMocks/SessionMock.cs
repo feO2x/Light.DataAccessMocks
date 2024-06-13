@@ -1,4 +1,4 @@
-﻿using Light.SharedCore.DataAccessAbstractions;
+﻿using Light.SharedCore.DatabaseAccessAbstractions;
 
 namespace Light.DataAccessMocks;
 

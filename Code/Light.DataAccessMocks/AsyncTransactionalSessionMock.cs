@@ -1,6 +1,6 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
-using Light.SharedCore.DataAccessAbstractions;
+using Light.SharedCore.DatabaseAccessAbstractions;
 
 namespace Light.DataAccessMocks;
 
@@ -11,7 +11,8 @@ namespace Light.DataAccessMocks;
 /// The subtype that derives from this class.
 /// It is used as the return type of the fluent API.
 /// </typeparam>
-public abstract class AsyncTransactionalSessionMock<T> : BaseTransactionalSessionMock<AsyncTransactionMock, T>, IAsyncTransactionalSession
+public abstract class AsyncTransactionalSessionMock<T> : BaseTransactionalSessionMock<AsyncTransactionMock, T>,
+                                                         IAsyncTransactionalSession
     where T : AsyncTransactionalSessionMock<T>
 {
     /// <summary>
@@ -30,10 +31,10 @@ public abstract class AsyncTransactionalSessionMock<T> : BaseTransactionalSessio
     /// transactions and returns it. If EnsurePreviousTransactionIsClosed is set to true
     /// (which is the default), this mock will also ensure that the previous transaction was disposed beforehand.
     /// </summary>
-    public Task<IAsyncTransaction> BeginTransactionAsync(CancellationToken cancellationToken = default)
+    public ValueTask<IAsyncTransaction> BeginTransactionAsync(CancellationToken cancellationToken = default)
     {
         var transaction = CreateTransaction();
-        return Task.FromResult<IAsyncTransaction>(transaction);
+        return new ValueTask<IAsyncTransaction>(transaction);
     }
 }
 
@@ -41,4 +42,4 @@ public abstract class AsyncTransactionalSessionMock<T> : BaseTransactionalSessio
 /// Represents a base class for mocks that implements <see cref="IAsyncTransactionalSession" />.
 /// The return type of the fluent APIs is tied to this base class.
 /// </summary>
-public abstract class AsyncTransactionalSessionMock : AsyncTransactionalSessionMock<AsyncTransactionalSessionMock> { }
+public abstract class AsyncTransactionalSessionMock : AsyncTransactionalSessionMock<AsyncTransactionalSessionMock>;

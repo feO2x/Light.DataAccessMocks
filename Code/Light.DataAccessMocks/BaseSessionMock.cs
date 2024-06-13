@@ -1,6 +1,6 @@
 ﻿using System;
 using Light.GuardClauses;
-using Light.SharedCore.DataAccessAbstractions;
+using Light.SharedCore.DatabaseAccessAbstractions;
 
 namespace Light.DataAccessMocks;
 
@@ -46,7 +46,12 @@ public abstract class BaseSessionMock<T> : AsyncDisposableMock<T>
     public T SaveChangesMustHaveBeenCalled()
     {
         if (SaveChangesCallCount != 1)
-            throw new TestException($"{SaveChangesMethodName} must have been called exactly once, but it was called {SaveChangesCallCount} times.");
+        {
+            throw new TestException(
+                $"{SaveChangesMethodName} must have been called exactly once, but it was called {SaveChangesCallCount} times."
+            );
+        }
+
         return (T) this;
     }
 
@@ -75,7 +80,9 @@ public abstract class BaseSessionMock<T> : AsyncDisposableMock<T>
     protected void ThrowExceptionIfNecessary()
     {
         if (ExceptionOnSaveChanges != null)
+        {
             throw ExceptionOnSaveChanges;
+        }
     }
 
     /// <summary>
@@ -86,7 +93,12 @@ public abstract class BaseSessionMock<T> : AsyncDisposableMock<T>
     public T SaveChangesMustNotHaveBeenCalled()
     {
         if (SaveChangesCallCount != 0)
-            throw new TestException($"{SaveChangesMethodName} must not have been called, but it was called {SaveChangesCallCount} {(SaveChangesCallCount == 1 ? "time" : "times")}.");
+        {
+            throw new TestException(
+                $"{SaveChangesMethodName} must not have been called, but it was called {SaveChangesCallCount} {(SaveChangesCallCount == 1 ? "time" : "times")}."
+            );
+        }
+
         return (T) this;
     }
 }

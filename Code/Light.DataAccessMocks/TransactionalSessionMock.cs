@@ -1,4 +1,4 @@
-﻿using Light.SharedCore.DataAccessAbstractions;
+﻿using Light.SharedCore.DatabaseAccessAbstractions;
 
 namespace Light.DataAccessMocks;
 
@@ -9,7 +9,8 @@ namespace Light.DataAccessMocks;
 /// The subtype that derives from this class.
 /// It is used as the return type of the fluent API.
 /// </typeparam>
-public abstract class TransactionalSessionMock<T> : BaseTransactionalSessionMock<TransactionMock, T>, ITransactionalSession
+public abstract class TransactionalSessionMock<T> : BaseTransactionalSessionMock<TransactionMock, T>,
+                                                    ITransactionalSession
     where T : TransactionalSessionMock<T>
 {
     /// <summary>

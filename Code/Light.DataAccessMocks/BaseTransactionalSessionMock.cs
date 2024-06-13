@@ -146,18 +146,26 @@ public abstract class BaseTransactionalSessionMock<TTransactionMock, TSubClass> 
     private void EnsurePreviousTransactionIsClosedIfNecessary()
     {
         if (!EnsurePreviousTransactionIsClosed || Transactions.Count == 0)
+        {
             return;
+        }
 
         var lastIndex = Transactions.Count - 1;
         var lastTransaction = Transactions[lastIndex];
         if (lastTransaction.DisposeCallCount == 0)
-            throw new TestException($"The {(lastIndex + 1).Ordinalize()} transaction was not disposed before the {(lastIndex + 2).Ordinalize()} transaction was started.");
+        {
+            throw new TestException(
+                $"The {(lastIndex + 1).Ordinalize()} transaction was not disposed before the {(lastIndex + 2).Ordinalize()} transaction was started."
+            );
+        }
     }
 
     private void EnsureTransactionsWereStarted()
     {
         if (Transactions.Count == 0)
+        {
             throw new TestException("No transactions were started.");
+        }
     }
 
     private void CheckIfTransactionWasCommitted(int i)
@@ -168,7 +176,9 @@ public abstract class BaseTransactionalSessionMock<TTransactionMock, TSubClass> 
             case 0:
                 throw new TestException($"The {(i + 1).Ordinalize()} transaction was not committed.");
             case > 1:
-                throw new TestException($"The {(i + 1).Ordinalize()} transaction was committed too often ({transaction.CommitCallCount} times).");
+                throw new TestException(
+                    $"The {(i + 1).Ordinalize()} transaction was committed too often ({transaction.CommitCallCount} times)."
+                );
         }
     }
 
@@ -176,15 +186,24 @@ public abstract class BaseTransactionalSessionMock<TTransactionMock, TSubClass> 
     {
         var transaction = Transactions[i];
         if (transaction.CommitCallCount != 0)
-            throw new TestException($"The {(i + 1).Ordinalize()} transaction was committed, although it should be rolled back.");
+        {
+            throw new TestException(
+                $"The {(i + 1).Ordinalize()} transaction was committed, although it should be rolled back."
+            );
+        }
+
         if (transaction.DisposeCallCount == 0)
+        {
             throw new TestException($"The {(i + 1).Ordinalize()} transaction was not rolled back.");
+        }
     }
 
     private void CheckIfIndexIsValid(int index)
     {
         if (index < 0 || index >= Transactions.Count)
+        {
             throw new IndexOutOfRangeException($"There is no transaction that corresponds to index {index}.");
+        }
     }
 
     /// <summary>
@@ -196,7 +215,9 @@ public abstract class BaseTransactionalSessionMock<TTransactionMock, TSubClass> 
         {
             var transaction = Transactions[i];
             if (transaction.DisposeCallCount == 0)
+            {
                 throw new TestException($"The {(i + 1).Ordinalize()} transaction was not disposed.");
+            }
         }
 
         return base.MustBeDisposed();

@@ -4,11 +4,11 @@
         <TargetFrameworks>netstandard2.0;netstandard2.1</TargetFrameworks>
         <Authors>Kenny Pflug</Authors>
         <Company>Kenny Pflug</Company>
-        <Copyright>Copyright © Kenny Pflug 2022</Copyright>
-        <Version>1.0.0</Version>
+        <Copyright>Copyright © Kenny Pflug 2022, 2024</Copyright>
+        <Version>2.0.0</Version>
         <Description>Provides mock implementations of the data access abstractions of Light.SharedCore.</Description>
         <PackageTags>unit;automated;testing;data-access;mocks</PackageTags>
-        <LangVersion>11.0</LangVersion>
+        <LangVersion>12.0</LangVersion>
         <Nullable>enable</Nullable>
         <IsPackable>true</IsPackable>
         <PackageIcon>light-logo.png</PackageIcon>
@@ -24,20 +24,18 @@
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
         <PackageReadmeFile>readme.md</PackageReadmeFile>
         <PackageReleaseNotes>
-Light.DataAccessMocks 1.0.0
+Light.DataAccessMocks 2.0.0
 --------------------------------
 
-- initial release 🥳🍻🎈
-- use the different session mocks in your unit tests to replace the real sessions accessing your database
-- use the AsyncFactoryMock&lt;T&gt; to track if sessions are created or not             
+- updated support for Light.SharedCore 2.0.0             
 - read all docs at https://github.com/feO2x/Light.DataAccessMocks
         </PackageReleaseNotes>
     </PropertyGroup>
     
     <ItemGroup>
-        <PackageReference Include="Light.SharedCore" Version="1.0.0" />
+        <PackageReference Include="Light.SharedCore" Version="2.0.0" />
         <PackageReference Include="Humanizer.Core" Version="2.14.1" />
-        <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" PrivateAssets="All" />
+        <PackageReference Include="Microsoft.SourceLink.GitHub" Version="8.0.0" PrivateAssets="All" />
     </ItemGroup>
     
     <ItemGroup>

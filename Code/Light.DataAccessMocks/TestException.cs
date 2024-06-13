@@ -10,7 +10,7 @@ namespace Light.DataAccessMocks;
 public class TestException : Exception
 {
     /// <summary>
-    /// Initializes a new instance of <see cref="TestException"/> with the specified message
+    /// Initializes a new instance of <see cref="TestException" /> with the specified message
     /// and an optional inner exception.
     /// </summary>
     /// <param name="message">The message that describes the error.</param>
@@ -18,12 +18,12 @@ public class TestException : Exception
     public TestException(string message, Exception? innerException = null) : base(message, innerException) { }
 
     /// <summary>
-    /// Initializes a new instance of <see cref="TestException"/> with serialized data.
+    /// Initializes a new instance of <see cref="TestException" /> with serialized data.
     /// </summary>
     /// <param name="info">
-    /// The <see cref="SerializationInfo"/> that holds the serialized
+    /// The <see cref="SerializationInfo" /> that holds the serialized
     /// object data about the exception being thrown.
     /// </param>
-    /// <param name="context">The <see cref="StreamingContext"/> that contains contextual information about the source or destination.</param>
+    /// <param name="context">The <see cref="StreamingContext" /> that contains contextual information about the source or destination.</param>
     protected TestException(SerializationInfo info, StreamingContext context) : base(info, context) { }
 }
