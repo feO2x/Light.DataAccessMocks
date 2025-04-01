@@ -50,7 +50,9 @@ public static class SessionMockTests
         Action act = () => session.SaveChangesMustHaveBeenCalled();
 
         act.Should().Throw<TestException>()
-           .And.Message.Should().Be($"SaveChanges must have been called exactly once, but it was called {numberOfCalls} times.");
+           .And.Message.Should().Be(
+                $"SaveChanges must have been called exactly once, but it was called {numberOfCalls} times."
+            );
     }
 
     [Fact]
@@ -68,7 +70,7 @@ public static class SessionMockTests
     {
         var session = new Session().SetSaveChangesCallCountToMaximum();
 
-        Action act = () => session.SaveChanges();
+        var act = () => session.SaveChanges();
 
         act.Should().Throw<OverflowException>();
     }
@@ -99,7 +101,7 @@ public static class SessionMockTests
         var exception = new Exception();
         var session = new Session { ExceptionOnSaveChanges = exception };
 
-        Action act = () => session.SaveChanges();
+        var act = () => session.SaveChanges();
 
         act.Should().Throw<Exception>()
            .Which.Should().BeSameAs(exception);

@@ -16,4 +16,4 @@ public abstract class AsyncReadOnlySessionMock<T> : AsyncDisposableMock<T>, IAsy
 /// Represents a base class for mocks that implements <see cref="IAsyncReadOnlySession" />.
 /// The return type of the fluent APIs is tied to this base class.
 /// </summary>
-public abstract class AsyncReadOnlySessionMock : AsyncReadOnlySessionMock<AsyncReadOnlySessionMock> { }
+public abstract class AsyncReadOnlySessionMock : AsyncReadOnlySessionMock<AsyncReadOnlySessionMock>;

@@ -28,4 +28,4 @@ public abstract class SessionMock<T> : BaseSessionMock<T>, ISession
 /// Represents a base class for mocks that implements <see cref="ISession" />.
 /// The return type of the fluent APIs is tied to this base class.
 /// </summary>
-public abstract class SessionMock : SessionMock<SessionMock> { }
+public abstract class SessionMock : SessionMock<SessionMock>;

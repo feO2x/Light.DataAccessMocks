@@ -36,4 +36,4 @@ public abstract class TransactionalSessionMock<T> : BaseTransactionalSessionMock
 /// Represents a base class for mocks that implements <see cref="ITransactionalSession" />.
 /// The return type of the fluent APIs is tied to this base class.
 /// </summary>
-public abstract class TransactionalSessionMock : TransactionalSessionMock<TransactionalSessionMock> { }
+public abstract class TransactionalSessionMock : TransactionalSessionMock<TransactionalSessionMock>;

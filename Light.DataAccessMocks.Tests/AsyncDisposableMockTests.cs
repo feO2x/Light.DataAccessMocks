@@ -69,7 +69,7 @@ public static class AsyncDisposableMockTests
     {
         var disposable = new AsyncDisposable().SetDisposeCountToMaximum();
 
-        Action act = () => disposable.Dispose();
+        var act = () => disposable.Dispose();
 
         act.Should().Throw<OverflowException>();
     }
@@ -79,7 +79,7 @@ public static class AsyncDisposableMockTests
     {
         var disposable = new AsyncDisposable().SetDisposeCountToMaximum();
 
-        Func<Task> act = () => disposable.DisposeAsync().AsTask();
+        var act = () => disposable.DisposeAsync().AsTask();
 
         act.Should().ThrowAsync<OverflowException>();
     }

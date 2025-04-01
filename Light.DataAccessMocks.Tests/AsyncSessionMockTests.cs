@@ -51,7 +51,9 @@ public static class AsyncSessionMockTests
         Action act = () => session.SaveChangesMustHaveBeenCalled();
 
         act.Should().Throw<TestException>()
-           .And.Message.Should().Be($"SaveChangesAsync must have been called exactly once, but it was called {numberOfCalls} times.");
+           .And.Message.Should().Be(
+                $"SaveChangesAsync must have been called exactly once, but it was called {numberOfCalls} times."
+            );
     }
 
     [Fact]
@@ -69,7 +71,7 @@ public static class AsyncSessionMockTests
     {
         var session = new AsyncSession().SetSaveChangesCallCountToMaximum();
 
-        Func<Task> act = () => session.SaveChangesAsync();
+        var act = () => session.SaveChangesAsync();
 
         act.Should().ThrowAsync<OverflowException>();
     }
@@ -100,7 +102,7 @@ public static class AsyncSessionMockTests
         var exception = new Exception();
         var session = new AsyncSession { ExceptionOnSaveChanges = exception };
 
-        Func<Task> act = () => session.SaveChangesAsync();
+        var act = () => session.SaveChangesAsync();
 
         (await act.Should().ThrowAsync<Exception>())
            .Which.Should().BeSameAs(exception);

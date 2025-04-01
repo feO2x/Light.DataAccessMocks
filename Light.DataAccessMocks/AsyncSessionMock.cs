@@ -34,4 +34,4 @@ public abstract class AsyncSessionMock<T> : BaseSessionMock<T>, IAsyncSession
 /// Represents a base class for mocks that implements <see cref="IAsyncSession" />.
 /// The return type of the fluent APIs is tied to this base class.
 /// </summary>
-public abstract class AsyncSessionMock : AsyncSessionMock<AsyncSessionMock> { }
+public abstract class AsyncSessionMock : AsyncSessionMock<AsyncSessionMock>;

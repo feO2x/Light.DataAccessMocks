@@ -1,19 +1,19 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-    <Import Project="Light.DataAccessMocks.Tests.Local.props" Condition="Exists('Light.DataAccessMocks.Tests.Local.props')" />
+  <Import Project="Light.DataAccessMocks.Tests.Local.props" Condition="Exists('Light.DataAccessMocks.Tests.Local.props')" />
 
-    <PropertyGroup>
-        <TargetFramework Condition="'$(TargetFramework)' == '' AND '$(TargetFrameworks)' == ''">net8.0</TargetFramework>
-        <Nullable>enable</Nullable>
-        <IsPackable>false</IsPackable>
-    </PropertyGroup>
+  <PropertyGroup>
+    <TargetFramework Condition="'$(TargetFramework)' == '' AND '$(TargetFrameworks)' == ''">net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
 
-    <ItemGroup>
-        <ProjectReference Include="..\Light.DataAccessMocks\Light.DataAccessMocks.csproj" />
-        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.10.0" />
-        <PackageReference Include="xunit" Version="2.8.1" />
-        <PackageReference Include="xunit.runner.visualstudio" Version="2.8.1" PrivateAssets="all" />
-        <PackageReference Include="FluentAssertions" Version="6.12.0" />
-    </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Light.DataAccessMocks\Light.DataAccessMocks.csproj" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.10.0" />
+    <PackageReference Include="xunit" Version="2.8.1" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.8.1" PrivateAssets="all" />
+    <PackageReference Include="FluentAssertions" Version="6.12.0" />
+  </ItemGroup>
 
 </Project>

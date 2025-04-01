@@ -16,4 +16,4 @@ public abstract class ReadOnlySessionMock<T> : DisposableMock<T>
 /// Represents a base class for mocks that implement <see cref="IDisposable" />.
 /// The return type of the fluent APIs is tied to this base class.
 /// </summary>
-public abstract class ReadOnlySessionMock : ReadOnlySessionMock<ReadOnlySessionMock> { }
+public abstract class ReadOnlySessionMock : ReadOnlySessionMock<ReadOnlySessionMock>;

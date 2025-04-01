@@ -18,5 +18,6 @@ public static class TransactionalSessionMockTests
 
     [Fact]
     public static void MustDeriveFromBaseTransactionSessionMock() =>
-        typeof(TransactionalSessionMock).Should().BeDerivedFrom<BaseTransactionalSessionMock<TransactionMock, TransactionalSessionMock>>();
+        typeof(TransactionalSessionMock).Should()
+           .BeDerivedFrom<BaseTransactionalSessionMock<TransactionMock, TransactionalSessionMock>>();
 }

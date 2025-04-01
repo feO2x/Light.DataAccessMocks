@@ -14,9 +14,11 @@ public static class AsyncTransactionalSessionMockTests
 
     [Fact]
     public static void NonGenericTypeMustDeriveFromGenericType() =>
-        typeof(AsyncTransactionalSessionMock).Should().BeDerivedFrom<AsyncTransactionalSessionMock<AsyncTransactionalSessionMock>>();
+        typeof(AsyncTransactionalSessionMock).Should()
+           .BeDerivedFrom<AsyncTransactionalSessionMock<AsyncTransactionalSessionMock>>();
 
     [Fact]
     public static void MustDeriveFromBaseTransactionSessionMock() =>
-        typeof(AsyncTransactionalSessionMock).Should().BeDerivedFrom<BaseTransactionalSessionMock<AsyncTransactionMock, AsyncTransactionalSessionMock>>();
+        typeof(AsyncTransactionalSessionMock).Should()
+           .BeDerivedFrom<BaseTransactionalSessionMock<AsyncTransactionMock, AsyncTransactionalSessionMock>>();
 }

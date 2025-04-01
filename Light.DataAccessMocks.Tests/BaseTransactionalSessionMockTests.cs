@@ -29,13 +29,66 @@ public static class BaseTransactionalSessionMockTests
                 var transaction = session.BeginTransaction();
                 transaction.Commit();
                 if (i != indexOfInvalidTransaction)
+                {
                     transaction.Dispose();
+                }
             }
         };
 
         act.Should().Throw<TestException>()
-           .And.Message.Should().Be($"The {(indexOfInvalidTransaction + 1).Ordinalize()} transaction was not disposed before the {(indexOfInvalidTransaction + 2).Ordinalize()} transaction was started.");
+           .And.Message.Should().Be(
+                $"The {(indexOfInvalidTransaction + 1).Ordinalize()} transaction was not disposed before the {(indexOfInvalidTransaction + 2).Ordinalize()} transaction was started."
+            );
     }
+
+    private static void CommitMayBeTooOften(
+        this TransactionMock transaction,
+        int currentIndex,
+        int indexOfInvalidTransaction,
+        ref int numberOfCommits
+    )
+    {
+        transaction.Commit();
+        if (currentIndex != indexOfInvalidTransaction)
+        {
+            return;
+        }
+
+        var random = new Random(); // You may want to provide a seed here for debugging purposes
+        numberOfCommits = random.Next(1, 10);
+        for (var i = 0; i < numberOfCommits; i++)
+        {
+            transaction.Commit();
+        }
+
+        numberOfCommits++;
+    }
+
+    private static void ShouldThrowTransactionWasNotCommitted(this Action act, int indexOfInvalidTransaction) =>
+        act.Should().Throw<TestException>()
+           .And.Message.Should().Be(
+                $"The {(indexOfInvalidTransaction + 1).Ordinalize()} transaction was not committed."
+            );
+
+    private static void ShouldThrowTransactionWasCommittedTooOften(
+        this Action act,
+        int indexOfInvalidTransaction,
+        int numberOfCommits
+    ) =>
+        act.Should().Throw<TestException>()
+           .And.Message.Should().Be(
+                $"The {(indexOfInvalidTransaction + 1).Ordinalize()} transaction was committed too often ({numberOfCommits} times)."
+            );
+
+    private static void ShouldThrowTransactionWasNotRolledBack(this Action act, int indexOfInvalidTransaction) =>
+        act.Should().Throw<TestException>()
+           .And.Message.Should().Be(
+                $"The {(indexOfInvalidTransaction + 1).Ordinalize()} transaction was committed, although it should be rolled back."
+            );
+
+    private static void ShouldThrowNoTransactionsStartedException(this Action act) =>
+        act.Should().Throw<TestException>()
+           .And.Message.Should().Be("No transactions were started.");
 
     public static class WhenMustBeDisposedIsCalled
     {
@@ -51,7 +104,9 @@ public static class BaseTransactionalSessionMockTests
             {
                 var transaction = session.BeginTransaction();
                 if (i != indexOfInvalidTransaction)
+                {
                     transaction.Dispose();
+                }
             }
 
             session.Dispose();
@@ -59,7 +114,9 @@ public static class BaseTransactionalSessionMockTests
             Action act = () => session.MustBeDisposed();
 
             act.Should().Throw<TestException>()
-               .And.Message.Should().Be($"The {(indexOfInvalidTransaction + 1).Ordinalize()} transaction was not disposed.");
+               .And.Message.Should().Be(
+                    $"The {(indexOfInvalidTransaction + 1).Ordinalize()} transaction was not disposed."
+                );
         }
 
         [Theory]
@@ -125,7 +182,10 @@ public static class BaseTransactionalSessionMockTests
             {
                 var transaction = session.BeginTransaction();
                 if (i != indexOfInvalidTransaction)
+                {
                     transaction.Commit();
+                }
+
                 transaction.Dispose();
             }
 
@@ -200,7 +260,10 @@ public static class BaseTransactionalSessionMockTests
             {
                 var transaction = session.BeginTransaction();
                 if (i != lastIndex)
+                {
                     transaction.Commit();
+                }
+
                 transaction.Dispose();
             }
 
@@ -220,7 +283,10 @@ public static class BaseTransactionalSessionMockTests
             {
                 var transaction = session.BeginTransaction();
                 if (i != indexOfInvalidTransaction)
+                {
                     transaction.Commit();
+                }
+
                 transaction.Dispose();
             }
 
@@ -242,7 +308,9 @@ public static class BaseTransactionalSessionMockTests
             {
                 var transaction = session.BeginTransaction();
                 if (i < 4)
+                {
                     transaction.CommitMayBeTooOften(i, indexOfInvalidTransaction, ref numberOfCommits);
+                }
 
                 transaction.Dispose();
             }
@@ -277,12 +345,15 @@ public static class BaseTransactionalSessionMockTests
             {
                 var transaction = session.BeginTransaction();
                 if (indexesOfCommittedTransactions.Contains(i))
+                {
                     transaction.Commit();
+                }
+
                 transaction.Dispose();
             }
 
             session.TransactionsWithIndexesMustBeCommitted(indexesOfCommittedTransactions)
-                   .Should().BeSameAs(session);
+               .Should().BeSameAs(session);
         }
 
         [Fact]
@@ -290,7 +361,7 @@ public static class BaseTransactionalSessionMockTests
         {
             var session = new TransactionalSession();
 
-            Action act = () => session.TransactionsWithIndexesMustBeCommitted(Array.Empty<int>());
+            Action act = () => session.TransactionsWithIndexesMustBeCommitted();
 
             act.Should().Throw<EmptyCollectionException>()
                .And.ParamName.Should().Be("indexes");
@@ -316,7 +387,10 @@ public static class BaseTransactionalSessionMockTests
             {
                 var transaction = session.BeginTransaction();
                 if (i is 0 or 3 or 4)
+                {
                     transaction.Commit();
+                }
+
                 transaction.Dispose();
             }
 
@@ -367,7 +441,10 @@ public static class BaseTransactionalSessionMockTests
             {
                 var transaction = session.BeginTransaction();
                 if (i == indexOfInvalidTransaction)
+                {
                     transaction.Commit();
+                }
+
                 transaction.Dispose();
             }
 
@@ -401,12 +478,15 @@ public static class BaseTransactionalSessionMockTests
             {
                 var transaction = session.BeginTransaction();
                 if (!indexesOfRolledBackTransactions.Contains(i))
+                {
                     transaction.Commit();
+                }
+
                 transaction.Dispose();
             }
 
             session.TransactionsWithIndexesMustBeRolledBack(indexesOfRolledBackTransactions)
-                   .Should().BeSameAs(session);
+               .Should().BeSameAs(session);
         }
 
         [Fact]
@@ -418,7 +498,10 @@ public static class BaseTransactionalSessionMockTests
             {
                 var transaction = session.BeginTransaction();
                 if (i is 0 or 3)
+                {
                     transaction.Commit();
+                }
+
                 transaction.Dispose();
             }
 
@@ -432,7 +515,7 @@ public static class BaseTransactionalSessionMockTests
         {
             var session = new TransactionalSession();
 
-            Action act = () => session.TransactionsWithIndexesMustBeRolledBack(Array.Empty<int>());
+            Action act = () => session.TransactionsWithIndexesMustBeRolledBack();
 
             act.Should().Throw<EmptyCollectionException>()
                .And.ParamName.Should().Be("indexes");
@@ -459,39 +542,6 @@ public static class BaseTransactionalSessionMockTests
             act.ShouldThrowNoTransactionsStartedException();
         }
     }
-
-    private static void CommitMayBeTooOften(this TransactionMock transaction,
-                                            int currentIndex,
-                                            int indexOfInvalidTransaction,
-                                            ref int numberOfCommits)
-    {
-        transaction.Commit();
-        if (currentIndex != indexOfInvalidTransaction)
-            return;
-
-        var random = new Random(); // You may want to provide a seed here for debugging purposes
-        numberOfCommits = random.Next(1, 10);
-        for (var i = 0; i < numberOfCommits; i++)
-            transaction.Commit();
-
-        numberOfCommits++;
-    }
-
-    private static void ShouldThrowTransactionWasNotCommitted(this Action act, int indexOfInvalidTransaction) =>
-        act.Should().Throw<TestException>()
-           .And.Message.Should().Be($"The {(indexOfInvalidTransaction + 1).Ordinalize()} transaction was not committed.");
-
-    private static void ShouldThrowTransactionWasCommittedTooOften(this Action act, int indexOfInvalidTransaction, int numberOfCommits) =>
-        act.Should().Throw<TestException>()
-           .And.Message.Should().Be($"The {(indexOfInvalidTransaction + 1).Ordinalize()} transaction was committed too often ({numberOfCommits} times).");
-
-    private static void ShouldThrowTransactionWasNotRolledBack(this Action act, int indexOfInvalidTransaction) =>
-        act.Should().Throw<TestException>()
-           .And.Message.Should().Be($"The {(indexOfInvalidTransaction + 1).Ordinalize()} transaction was committed, although it should be rolled back.");
-
-    private static void ShouldThrowNoTransactionsStartedException(this Action act) =>
-        act.Should().Throw<TestException>()
-           .And.Message.Should().Be("No transactions were started.");
 
     private sealed class TransactionalSession : BaseTransactionalSessionMock<TransactionMock, TransactionalSession>
     {

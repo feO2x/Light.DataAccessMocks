@@ -44,4 +44,4 @@ public abstract class DisposableMock<T> : IDisposable, IDisposableMock
 /// Represents a base class for mocks that implement <see cref="IDisposable" />.
 /// The return type of the fluent APIs is tied to this base class.
 /// </summary>
-public abstract class DisposableMock : DisposableMock<DisposableMock> { }
+public abstract class DisposableMock : DisposableMock<DisposableMock>;

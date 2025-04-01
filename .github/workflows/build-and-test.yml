@@ -5,11 +5,11 @@ name: Build and Test
 
 on:
   push:
-    branches: [main]
-    paths: ['Code/**', 'build-and-test.yml']
+    branches: [ main ]
+    paths: [ 'Code/**', 'build-and-test.yml' ]
   pull_request:
-    branches: [main]
-    paths: ['Code/**', 'build-and-test.yml']
+    branches: [ main ]
+    paths: [ 'Code/**', 'build-and-test.yml' ]
 
 jobs:
   build-and-test:
@@ -17,14 +17,14 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v4
-    - name: Setup .NET
-      uses: actions/setup-dotnet@v3
-      with:
-        dotnet-version: 8.0.x
-    - name: Restore dependencies
-      run: dotnet restore ./Code/Light.DataAccessMocks.sln
-    - name: Build
-      run: dotnet build ./Code/Light.DataAccessMocks.sln -c Release --no-restore
-    - name: Test
-      run: dotnet test ./Code/Light.DataAccessMocks.Tests/Light.DataAccessMocks.Tests.csproj -c Release --no-build --verbosity normal
+      - uses: actions/checkout@v4
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: 8.0.x
+      - name: Restore dependencies
+        run: dotnet restore ./Code/Light.DataAccessMocks.sln
+      - name: Build
+        run: dotnet build ./Code/Light.DataAccessMocks.sln -c Release --no-restore
+      - name: Test
+        run: dotnet test ./Code/Light.DataAccessMocks.Tests/Light.DataAccessMocks.Tests.csproj -c Release --no-build --verbosity normal
