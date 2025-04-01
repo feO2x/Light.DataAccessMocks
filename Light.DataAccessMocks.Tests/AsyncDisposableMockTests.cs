@@ -75,13 +75,13 @@ public static class AsyncDisposableMockTests
     }
 
     [Fact]
-    public static void AsyncCallCountIncrementationMustBeChecked()
+    public static async Task AsyncCallCountIncrementationMustBeChecked()
     {
         var disposable = new AsyncDisposable().SetDisposeCountToMaximum();
 
         var act = () => disposable.DisposeAsync().AsTask();
 
-        act.Should().ThrowAsync<OverflowException>();
+        await act.Should().ThrowAsync<OverflowException>();
     }
 
     private sealed class AsyncDisposable : AsyncDisposableMock

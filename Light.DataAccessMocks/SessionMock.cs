@@ -1,4 +1,6 @@
-﻿using Light.SharedCore.DatabaseAccessAbstractions;
+﻿using System.Threading;
+using System.Threading.Tasks;
+using Light.SharedCore.DatabaseAccessAbstractions;
 
 namespace Light.DataAccessMocks;
 
@@ -13,15 +15,19 @@ public abstract class SessionMock<T> : BaseSessionMock<T>, ISession
     where T : SessionMock<T>
 {
     /// <summary>
-    /// Initializes a new instance of <see cref="SessionMock" />.
+    /// Initializes a new instance of <see cref="SessionMock{T}" />
     /// </summary>
-    protected SessionMock() : base("SaveChanges") { }
+    protected SessionMock() : base("SaveChangesAsync") { }
 
     /// <summary>
     /// Increments the SaveChangesCallCount and potentially throws
     /// an exception if ExceptionOnSaveChanges is not null.
     /// </summary>
-    public void SaveChanges() => SaveChangesInternal();
+    public Task SaveChangesAsync(CancellationToken cancellationToken = default)
+    {
+        SaveChangesInternal();
+        return Task.CompletedTask;
+    }
 }
 
 /// <summary>

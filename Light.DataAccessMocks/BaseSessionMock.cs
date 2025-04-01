@@ -5,7 +5,7 @@ using Light.SharedCore.DatabaseAccessAbstractions;
 namespace Light.DataAccessMocks;
 
 /// <summary>
-/// Represents the base class for mocks that implement <see cref="IAsyncSession" /> or <see cref="ISession" />.
+/// Represents the base class for mocks that implement <see cref="ISession" />.
 /// </summary>
 /// <typeparam name="T">
 /// The subtype that derives from this class.
