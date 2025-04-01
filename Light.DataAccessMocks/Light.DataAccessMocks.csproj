@@ -39,8 +39,8 @@ Light.DataAccessMocks 2.0.0
     </ItemGroup>
     
     <ItemGroup>
-        <None Include="../../light-logo.png" Pack="true" PackagePath="\" />
-        <None Include="../../readme.md" Pack="true" PackagePath="\" />
+        <None Include="../light-logo.png" Pack="true" PackagePath="\" />
+        <None Include="../readme.md" Pack="true" PackagePath="\" />
     </ItemGroup>
 
 </Project>
