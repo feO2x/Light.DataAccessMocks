@@ -13,18 +13,16 @@ on:
 
 jobs:
   build-and-test:
-
     runs-on: ubuntu-latest
-
     steps:
       - uses: actions/checkout@v4
       - name: Setup .NET
-        uses: actions/setup-dotnet@v3
+        uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: 8.0.x
+          dotnet-version: 9.0.x
       - name: Restore dependencies
-        run: dotnet restore ./Code/Light.DataAccessMocks.sln
+        run: dotnet restore ./Light.DataAccessMocks.slnx
       - name: Build
-        run: dotnet build ./Code/Light.DataAccessMocks.sln -c Release --no-restore
+        run: dotnet build /Light.DataAccessMocks.slnx -c Release --no-restore
       - name: Test
-        run: dotnet test ./Code/Light.DataAccessMocks.Tests/Light.DataAccessMocks.Tests.csproj -c Release --no-build --verbosity normal
+        run: dotnet test ./Light.DataAccessMocks.Tests/Light.DataAccessMocks.Tests.csproj -c Release --no-build --verbosity normal
