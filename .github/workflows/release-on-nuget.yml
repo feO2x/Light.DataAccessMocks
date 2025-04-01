@@ -20,7 +20,7 @@ jobs:
       - name: Setup .NET
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: ${{ github.event.inputs.dotnetVersion }}
+          dotnet-version: ${{ github.event.inputs.dotnetVersion || '9.0.x' }}
       - name: Prepare SNK file
         env:
           LIGHT_DATAACCESSMOCKS_SNK: ${{ secrets.LIGHT_DATAACCESSMOCKS_SNK }}
