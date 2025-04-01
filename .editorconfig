@@ -7,7 +7,7 @@ insert_final_newline = true
 indent_style = space
 indent_size = 4
 
-[{*.csproj,*.slnx,*.xml,*.props,*.targets}]
+[{*.csproj,*.slnx,*.xml,*.props,*.targets,*.yml,*.yaml,*.json}]
 indent_size = 2
 
 [*.cs]
@@ -565,7 +565,7 @@ resharper_arguments_other = positional
 resharper_arguments_skip_single = false
 resharper_arguments_string_literal = positional
 resharper_attribute_style = do_not_touch
-resharper_autodetect_indent_settings = true
+resharper_autodetect_indent_settings = false
 resharper_blank_lines_after_access_specifier = 0
 resharper_blank_lines_after_block_statements = 1
 resharper_blank_lines_after_case = 0
