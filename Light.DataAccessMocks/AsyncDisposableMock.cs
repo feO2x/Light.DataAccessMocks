@@ -31,4 +31,4 @@ public abstract class AsyncDisposableMock<T> : DisposableMock<T>, IAsyncDisposab
 /// Represents a base class for mocks that implement <see cref="IAsyncDisposable" /> and <see cref="IDisposable" />.
 /// The return type of the fluent APIs is tied to this base class.
 /// </summary>
-public abstract class AsyncDisposableMock : AsyncDisposableMock<AsyncDisposableMock> { }
+public abstract class AsyncDisposableMock : AsyncDisposableMock<AsyncDisposableMock>;

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using FluentAssertions;
 using Xunit;
 
@@ -33,13 +34,13 @@ public static class SessionMockTests
     [InlineData(2)]
     [InlineData(5)]
     [InlineData(23)]
-    public static void ExceptionWhenSaveChangesAsyncWasCalledTooOften(int numberOfCalls)
+    public static async Task ExceptionWhenSaveChangesAsyncWasCalledTooOften(int numberOfCalls)
     {
         var session = new Session();
 
         for (var i = 0; i < numberOfCalls; i++)
         {
-            session.SaveChanges();
+            await session.SaveChangesAsync();
         }
 
         session.CheckException(numberOfCalls);
@@ -50,27 +51,29 @@ public static class SessionMockTests
         Action act = () => session.SaveChangesMustHaveBeenCalled();
 
         act.Should().Throw<TestException>()
-           .And.Message.Should().Be($"SaveChanges must have been called exactly once, but it was called {numberOfCalls} times.");
+           .And.Message.Should().Be(
+                $"SaveChangesAsync must have been called exactly once, but it was called {numberOfCalls} times."
+            );
     }
 
     [Fact]
-    public static void NoExceptionWhenSaveChangesWasCalledExactlyOnce()
+    public static async Task NoExceptionWhenSaveChangesWasCalledExactlyOnce()
     {
         var session = new Session();
 
-        session.SaveChanges();
+        await session.SaveChangesAsync();
 
         session.SaveChangesMustHaveBeenCalled().Should().BeSameAs(session);
     }
 
     [Fact]
-    public static void CallCountIncrementationMustBeChecked()
+    public static async Task CallCountIncrementationMustBeChecked()
     {
         var session = new Session().SetSaveChangesCallCountToMaximum();
 
-        Action act = () => session.SaveChanges();
+        var act = () => session.SaveChangesAsync();
 
-        act.Should().Throw<OverflowException>();
+        await act.Should().ThrowAsync<OverflowException>();
     }
 
     [Fact]
@@ -82,26 +85,26 @@ public static class SessionMockTests
     }
 
     [Fact]
-    public static void ExceptionWhenSaveChangesWasCalled()
+    public static async Task ExceptionWhenSaveChangesWasCalled()
     {
         var session = new Session();
-        session.SaveChanges();
+        await session.SaveChangesAsync();
 
         Action act = () => session.SaveChangesMustNotHaveBeenCalled();
 
         act.Should().Throw<TestException>()
-           .And.Message.Should().Be("SaveChanges must not have been called, but it was called 1 time.");
+           .And.Message.Should().Be("SaveChangesAsync must not have been called, but it was called 1 time.");
     }
 
     [Fact]
-    public static void ThrowExceptionOnSaveChanges()
+    public static async Task ThrowExceptionOnSaveChanges()
     {
         var exception = new Exception();
         var session = new Session { ExceptionOnSaveChanges = exception };
 
-        Action act = () => session.SaveChanges();
+        var act = () => session.SaveChangesAsync();
 
-        act.Should().Throw<Exception>()
+        (await act.Should().ThrowAsync<Exception>())
            .Which.Should().BeSameAs(exception);
     }
 

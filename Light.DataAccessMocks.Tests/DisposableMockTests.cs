@@ -51,7 +51,7 @@ public static class DisposableMockTests
     {
         var disposable = new Disposable().SetDisposeCountToMaximum();
 
-        Action act = () => disposable.Dispose();
+        var act = () => disposable.Dispose();
 
         act.Should().Throw<OverflowException>();
     }

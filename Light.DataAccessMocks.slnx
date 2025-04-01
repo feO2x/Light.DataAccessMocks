@@ -1,0 +1,12 @@
+<Solution>
+  <Folder Name="/Solution Items/">
+    <File Path=".gitignore" />
+    <File Path="LICENSE" />
+    <File Path="README.md" />
+    <File Path=".github\workflows\build-and-test.yml" />
+    <File Path=".github\workflows\release-on-nuget.yml" />
+    <File Path=".editorconfig" />
+  </Folder>
+  <Project Path="Light.DataAccessMocks.Tests/Light.DataAccessMocks.Tests.csproj" />
+  <Project Path="Light.DataAccessMocks/Light.DataAccessMocks.csproj" />
+</Solution>
