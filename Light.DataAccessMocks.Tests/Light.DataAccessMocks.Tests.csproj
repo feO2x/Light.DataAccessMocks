@@ -3,7 +3,7 @@
   <Import Project="Light.DataAccessMocks.Tests.Local.props" Condition="Exists('Light.DataAccessMocks.Tests.Local.props')" />
 
   <PropertyGroup>
-    <TargetFramework Condition="'$(TargetFramework)' == '' AND '$(TargetFrameworks)' == ''">net8.0</TargetFramework>
+    <TargetFramework Condition="'$(TargetFramework)' == '' AND '$(TargetFrameworks)' == ''">net9.0</TargetFramework>
     <Nullable>enable</Nullable>
     <IsPackable>false</IsPackable>
   </PropertyGroup>
